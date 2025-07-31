@@ -1,5 +1,5 @@
-## 1. Pastikan vm sudah di buat dengan format 1 load balancer 2-3 app untuk kasus sederhana kali ini.
-Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastikan untuk vm nya verjalan di VPS yang mempunyai IP public atau jika local bisa di tunneling terlebih dahulu via ngrok, cloudflare atau semacamnya.
+## 1. Pastikan VM sudah di buat dengan format 1 reverse proxy 2-3 apps.
+Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastikan untuk VM nya verjalan di VPS yang mempunyai IP Public atau jika local bisa di tunneling terlebih dahulu via Ngrok, Cloudflare atau semacamnya.
 
 ```
 
@@ -19,10 +19,10 @@ Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastik
                           |                            |
                           |                            |
                           v                            v
-                +------------------+           +------------------+
-                |   VM2 (app1)     |           |   VM3 (app2)     |
-                |  10.10.10.12     |           |  10.10.10.13     |
-                +------------------+           +------------------+
+                +---------------------+          +------------------+
+                |   VM2 (app1)        |          |   VM3 (app2)     |
+                |  10.10.10.12:80     |          |  10.10.10.13:80  |
+                +---------------------+          +------------------+
 ```
 
 Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan *nameserver* yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: *DNS* -> *Records* -> *Add record* -> *IP Address:* `{IP Public VPS}`, *Name:* `@` (for root), *Nonaktifkan Proxy status (optional),* *Save.* DNS bisa dicek di `whatsmydns.net`.
@@ -44,19 +44,40 @@ sudo rm /etc/nginx/sites-enabled/default
 - Tambahkan file konfigurasi baru:
 
   ```bash
-  sudo nano /etc/nginx/sites-available/app-1 (contoh)
-  sudo nano /etc/nginx/sites-available/app-2 (contoh)
-  sudo nano /etc/nginx/sites-available/app-3 (contoh)
+  sudo nano /etc/nginx/sites-available/app-1
+  sudo nano /etc/nginx/sites-available/app-2
+  sudo nano /etc/nginx/sites-available/app-3
 
+  #App 1
   server {
   	   listen 80;
-          server_name app-1/app-2/app-3.{nama project cloudflare};
+          server_name app-1.yourdomain.com;
 
           location / {
-     	   proxy_pass http://localhost:{port app-1/2/3};
+     	   proxy_pass http://localhost:80;
           }
   }
 
+  #App 2
+  server {
+  	   listen 80;
+          server_name app-2.yourdomain.com;
+
+          location / {
+     	   proxy_pass http://localhost:80;
+          }
+  }
+
+  #App 3
+  server {
+  	   listen 80;
+          server_name app-3.yourdomain.com;
+
+          location / {
+     	   proxy_pass http://localhost:80;
+          }
+  }
+  
   sudo ln -s /etc/nginx/sites-available/app-1 /etc/nginx/sites-enabled/
   sudo ln -s /etc/nginx/sites-available/app-2 /etc/nginx/sites-enabled/
   sudo ln -s /etc/nginx/sites-available/app-3 /etc/nginx/sites-enabled/
@@ -80,4 +101,4 @@ sudo certbot --nginx -d "app-3.yourdomain.com"
 
 Coba cek lagi service/website nya apakah sudah muncul encrypt/https-nya atau belum.
 
-- secara otomatis nanti certbot akan menambahkan konfigurasi SSL pada file /etc/nginx/sites-available/app-1,app-2,app-3
+_Secara otomatis nanti certbot akan menambahkan konfigurasi SSL pada file /etc/nginx/sites-available/app-1,app-2,app-3_
