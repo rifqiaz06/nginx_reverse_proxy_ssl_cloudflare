@@ -47,7 +47,9 @@ sudo rm /etc/nginx/sites-enabled/default
   sudo nano /etc/nginx/sites-available/app-1
   sudo nano /etc/nginx/sites-available/app-2
   sudo nano /etc/nginx/sites-available/app-3
+  ```
 
+  ```bash
   #App 1
   server {
   	   listen 80;
@@ -77,7 +79,9 @@ sudo rm /etc/nginx/sites-enabled/default
      	   proxy_pass http://localhost:80;
           }
   }
-  
+  ```
+
+  ```bash
   sudo ln -s /etc/nginx/sites-available/app-1 /etc/nginx/sites-enabled/
   sudo ln -s /etc/nginx/sites-available/app-2 /etc/nginx/sites-enabled/
   sudo ln -s /etc/nginx/sites-available/app-3 /etc/nginx/sites-enabled/
@@ -85,10 +89,9 @@ sudo rm /etc/nginx/sites-enabled/default
   sudo nginx -t
   sudo systemctl restart nginx
   sudo systemctl status nginx
-
   ```
 
-- Coba akses service/website via Domain _app-1.yourdomain.com_, _app-2.yourdomain.com_, __app-3.yourdomain.com_.
+- Coba akses service/website via Domain __app-1.yourdomain.com__, __app-2.yourdomain.com__, __app-3.yourdomain.com__ .
 
 ## 4. Menambahkan Konfigurasi SSL/HTTPS
 
@@ -101,4 +104,4 @@ sudo certbot --nginx -d "app-3.yourdomain.com"
 
 Coba cek lagi service/website nya apakah sudah muncul encrypt/https-nya atau belum.
 
-_Secara otomatis nanti certbot akan menambahkan konfigurasi SSL pada file /etc/nginx/sites-available/app-1,app-2,app-3_
+_Secara otomatis nanti certbot akan menambahkan konfigurasi SSL pada file `/etc/nginx/sites-available/app-1,app-2,app-3`_
