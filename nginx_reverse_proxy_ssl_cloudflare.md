@@ -1,6 +1,20 @@
 ## 1. Pastikan vm sudah di buat dengan format 1 load balancer 2-3 app untuk kasus sederhana kali ini.
 untuk vm bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastikan untuk vm nya verjalan di VPS yang mempunyai IP public atau jika local bisa di tunneling terlebih dahulu via ngrok, cloudflare atau semacamnya.
 
+```
++-----------------+
+|   VM1 (RP)      |  --> NGINX (Reverse Proxy)
+|  10.10.10.11    |
++-----------------+
+        |
+        |   Cloudflare
+        V
++-----------------+           +-----------------+
+|   VM2 (Web)     |           |   VM3 (Web)     |
+|  10.10.10.12    |  <---->   |  10.10.10.13    |
++-----------------+           +-----------------+
+```
+
 jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan nameserver yang ada di cloudflare. untuk konfigurasi di VPS dengan _Update Nameserver_ di platform VPS nya. Lalu jangan lupa tambahkan _DNS Record_ pada Cloudflare yaitu dengan: DNS -> Records -> Add record -> IP Address: {IP Public VPS}, Name: @ (for root), Nonaktifkan Proxy status (optional), Save. DNS bisa dicek di whatsmydns.net.
 
 ## 2. Install dan konfigurasi nginx terlebih dahulu:
