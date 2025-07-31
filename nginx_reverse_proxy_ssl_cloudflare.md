@@ -25,7 +25,7 @@ Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastik
                 +---------------------+          +------------------+
 ```
 
-Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan **Nameserver** yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: **DNS** -> **Records** -> **Add record** -> **IP Address:** `{IP Public VPS}`, **Name:** `@` (for root), **Nonaktifkan Proxy status (optional),** **Save.** DNS bisa dicek di `whatsmydns.net`.
+Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan **Nameserver** yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: **DNS** -> **Records** -> **Add record** -> **IP Address:** `{IP Public VPS}`, **Name:** `@` (for root), **Nonaktifkan Proxy status** (optional), **Save.** DNS bisa dicek di `whatsmydns.net`.
 
 ## 2. Install dan konfigurasi nginx terlebih dahulu:
 
