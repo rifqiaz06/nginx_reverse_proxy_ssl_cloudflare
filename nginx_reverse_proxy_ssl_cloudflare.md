@@ -1,21 +1,31 @@
 ## 1. Pastikan vm sudah di buat dengan format 1 load balancer 2-3 app untuk kasus sederhana kali ini.
-untuk vm bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastikan untuk vm nya verjalan di VPS yang mempunyai IP public atau jika local bisa di tunneling terlebih dahulu via ngrok, cloudflare atau semacamnya.
+Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastikan untuk vm nya verjalan di VPS yang mempunyai IP public atau jika local bisa di tunneling terlebih dahulu via ngrok, cloudflare atau semacamnya.
 
 ```
-+-----------------+
-|   VM1 (RP)      |  --> NGINX (Reverse Proxy)
-|  10.10.10.11    |
-+-----------------+
-        |
-        |   Cloudflare
-        V
-+-----------------+           +-----------------+
-|   VM2 (Web)     |           |   VM3 (Web)     |
-|  10.10.10.12    |  <---->   |  10.10.10.13    |
-+-----------------+           +-----------------+
+
+                                      Public
+                                      Network
+                                        |
+                                        |  app-1.yourdomain.com
+                                        |  app-2.yourdomain.com
+                                        |
+                                        v
+                                +-----------------+
+                                |   VM1 (RP)      |  --> NGINX (Reverse Proxy)
+                                |  10.10.10.11    |
+                                +-----------------+
+                                        |   
+                          ------------------------------              
+                          |                            |
+                          |                            |
+                          v                            v
+                +------------------+           +------------------+
+                |   VM2 (app1)     |           |   VM3 (app2)     |
+                |  10.10.10.12     |           |  10.10.10.13     |
+                +------------------+           +------------------+
 ```
 
-jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan nameserver yang ada di cloudflare. untuk konfigurasi di VPS dengan _Update Nameserver_ di platform VPS nya. Lalu jangan lupa tambahkan _DNS Record_ pada Cloudflare yaitu dengan: DNS -> Records -> Add record -> IP Address: {IP Public VPS}, Name: @ (for root), Nonaktifkan Proxy status (optional), Save. DNS bisa dicek di whatsmydns.net.
+Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan *nameserver* yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: *DNS* -> *Records* -> *Add record* -> *IP Address:* `{IP Public VPS}`, *Name:* `@` (for root), *Nonaktifkan Proxy status (optional),* *Save.* DNS bisa dicek di `whatsmydns.net`.
 
 ## 2. Install dan konfigurasi nginx terlebih dahulu:
 
@@ -57,13 +67,15 @@ sudo rm /etc/nginx/sites-enabled/default
 
   ```
 
-- Coba akses service/website via Domain {app-1/2/3}.{nama project cloudflare}
+- Coba akses service/website via Domain _app-1.yourdomain.com_, _app-2.yourdomain.com_, __app-3.yourdomain.com_.
 
 ## 4. Menambahkan Konfigurasi SSL/HTTPS
 
 ```bash
 sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d "{app-1/2/3}.{nama project cloudflare}"
+sudo certbot --nginx -d "app-1.yourdomain.com"
+sudo certbot --nginx -d "app-2.yourdomain.com"
+sudo certbot --nginx -d "app-3.yourdomain.com"
 ```
 
 Coba cek lagi service/website nya apakah sudah muncul encrypt/https-nya atau belum.
