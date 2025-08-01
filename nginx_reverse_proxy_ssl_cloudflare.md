@@ -52,7 +52,7 @@ sudo rm /etc/nginx/sites-enabled/default
   ```bash
   #App 1
   server {
-  	   listen 80;
+  	      listen 80;
           server_name app-1.yourdomain.com;
 
           location / {
@@ -62,7 +62,7 @@ sudo rm /etc/nginx/sites-enabled/default
 
   #App 2
   server {
-  	   listen 80;
+  	      listen 80;
           server_name app-2.yourdomain.com;
 
           location / {
@@ -72,7 +72,7 @@ sudo rm /etc/nginx/sites-enabled/default
 
   #App 3
   server {
-  	   listen 80;
+  	      listen 80;
           server_name app-3.yourdomain.com;
 
           location / {
