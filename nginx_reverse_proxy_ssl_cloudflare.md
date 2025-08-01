@@ -52,30 +52,30 @@ sudo rm /etc/nginx/sites-enabled/default
   ```bash
   #App 1
   server {
-  	      listen 80;
-          server_name app-1.yourdomain.com;
+         listen 80;
+         server_name app-1.yourdomain.com;
 
-          location / {
+         location / {
      	   proxy_pass http://localhost:80;
           }
   }
 
   #App 2
   server {
-  	      listen 80;
-          server_name app-2.yourdomain.com;
+         listen 80;
+         server_name app-2.yourdomain.com;
 
-          location / {
+         location / {
      	   proxy_pass http://localhost:80;
           }
   }
 
   #App 3
   server {
-  	      listen 80;
-          server_name app-3.yourdomain.com;
+         listen 80;
+         server_name app-3.yourdomain.com;
 
-          location / {
+         location / {
      	   proxy_pass http://localhost:80;
           }
   }
