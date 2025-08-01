@@ -3,26 +3,26 @@ Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastik
 
 ```
 
-                                      Public
-                                      Network
-                                        |
-                                        |  app-1.yourdomain.com
-                                        |  app-2.yourdomain.com
-                                        |
-                                        v
-                                +------------------+
-                                |   VM1 (RP)       |  --> NGINX (Reverse Proxy)
-                                |  192.168.0.11    |
-                                +------------------+
-                                        |   
-                          ------------------------------              
-                          |                            |
-                          |                            |
-                          v                            v
-                +---------------------+          +--------------------+
-                |   VM2 (app1)        |          |   VM3 (app2)       |
-                |  192.168.0.12:80    |          |  192.168.0.13:80   |
-                +---------------------+          +--------------------+
+                                                    Public
+                                                    Network
+                                                       |
+                                                       |  app-1.yourdomain.com
+                                                       |  app-2.yourdomain.com
+                                                       |  app-3.yourdomain.com
+                                                       v
+                                              +------------------+
+                                              |   VM1 (RP)       |  --> NGINX (Reverse Proxy)
+                                              |  192.168.0.11    |
+                                              +------------------+
+                                                       |   
+                          ---------------------------------------------------------            
+                          |                            |                          |
+                          |                            |                          |
+                          v                            v                          v
+                +---------------------+       +--------------------+      +--------------------+
+                |   VM2 (app1)        |       |   VM3 (app2)       |      |   VM4 (app3)       |
+                |  192.168.0.12:80    |       |  192.168.0.13:80   |      |  192.168.0.14:80   |
+                +---------------------+       +--------------------+      +--------------------+
 ```
 
 Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan **Nameserver** yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: **DNS** -> **Records** -> **Add record** -> **IP Address:** `{IP Public VPS}`, **Name:** `@` (for root), **Nonaktifkan Proxy status** (optional), **Save.** DNS bisa dicek di `whatsmydns.net`.
