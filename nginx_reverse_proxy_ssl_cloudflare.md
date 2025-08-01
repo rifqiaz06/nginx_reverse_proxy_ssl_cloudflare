@@ -10,19 +10,19 @@ Untuk VM bisa dibuat secara manual via virtualbox, atau lewat docker. dan Pastik
                                         |  app-2.yourdomain.com
                                         |
                                         v
-                                +-----------------+
-                                |   VM1 (RP)      |  --> NGINX (Reverse Proxy)
-                                |  10.10.10.11    |
-                                +-----------------+
+                                +------------------+
+                                |   VM1 (RP)       |  --> NGINX (Reverse Proxy)
+                                |  192.168.0.11    |
+                                +------------------+
                                         |   
                           ------------------------------              
                           |                            |
                           |                            |
                           v                            v
-                +---------------------+          +------------------+
-                |   VM2 (app1)        |          |   VM3 (app2)     |
-                |  10.10.10.12:80     |          |  10.10.10.13:80  |
-                +---------------------+          +------------------+
+                +---------------------+          +--------------------+
+                |   VM2 (app1)        |          |   VM3 (app2)       |
+                |  192.168.0.12:80    |          |  192.168.0.13:80   |
+                +---------------------+          +--------------------+
 ```
 
 Jika menggunakan VPS jangan lupa tambahkan konfigurasi menggunakan **Nameserver** yang ada di cloudflare. untuk konfigurasi di VPS dengan *Update Nameserver* di platform VPS nya. Lalu jangan lupa tambahkan *DNS Record* pada Cloudflare yaitu dengan: **DNS** -> **Records** -> **Add record** -> **IP Address:** `{IP Public VPS}`, **Name:** `@` (for root), **Nonaktifkan Proxy status** (optional), **Save.** DNS bisa dicek di `whatsmydns.net`.
